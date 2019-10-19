@@ -1,0 +1,14 @@
+#!/bin/sh
+if [ "$#" -eq 1 ]; then
+  STEP_RELEASE=$1
+  docker build --build-arg STEP_RELEASE=$STEP_RELEASE -t pierdipi/stepcli:$STEP_RELEASE .
+  docker tag pierdipi/stepcli:$STEP_RELEASE pierdipi/stepcli:$STEP_RELEASE
+  docker push pierdipi/stepcli:$STEP_RELEASE
+  docker rmi pierdipi/stepcli:$STEP_RELEASE
+else
+	USAGE=$'Usage: ./bin/release <version>
+
+  <version> = <major>.<minor>.<patch>'
+	echo "$USAGE"
+	exit 1 
+fi
